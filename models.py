@@ -44,3 +44,12 @@ class Faculty(db.Model):
 
     def __repr__(self):
         return '<Faculty %r>' % self.name
+
+class Action(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    action_time = db.Column(db.DateTime, nullable=False)
+    users = db.relationship("User", backref="action", lazy=True)
+
+    def __repr__(self):
+        return '<Action %r>' % self.name
