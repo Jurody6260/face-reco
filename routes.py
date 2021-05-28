@@ -7,13 +7,18 @@ def add():
     if request.method == "POST":
         name = request.form['name']
         group = request.form['group']
-        user = User(name=name, group=group)
+        level = request.form['level']
+        login = request.form['login']
+        password = request.form['password']
+        #password2 = request.form['password2']
+        
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             return redirect(url_for('add',
                                     filename=filename))
+        user = User(name=name, group_id=group, level=level, login=login, password=password, path=os.path.join(UPLOAD_FOLDER, filename))
 
         try:
             db.session.add(user)
