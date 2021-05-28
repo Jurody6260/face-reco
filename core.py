@@ -1,4 +1,5 @@
 from models import *
+from flask import Flask, render_template, Response, request, redirect, url_for
 from genericpath import samefile
 import face_recognition
 import numpy as np
@@ -6,11 +7,18 @@ from os import listdir, remove
 from os.path import isfile, join, getmtime
 import cv2, time
 from hashlib import sha256
+from datetime import datetime
+from werkzeug.utils import secure_filename
 mypath = "imgs"
+
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
 
 in_video = cv2.VideoCapture(0)
 out_video = cv2.VideoCapture(1)
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def SHA256(text):
     return sha256(text.encode("utf-8")).hexdigest()
