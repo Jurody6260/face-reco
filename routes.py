@@ -28,7 +28,6 @@ def add():
             return redirect('/posts')
         except:
             return "При добавлении статьи возникла ошибка"
-
     else:
         grou = Group.query.all()
         return render_template("add.html", data=grou)
@@ -95,6 +94,56 @@ def add_faculty():
 
 
 
+
+@app.route('/group_add', methods=['POST', 'GET'])
+def group_add():
+    if request.method == "POST":
+        name = request.form['name']
+        faculty = request.form['faculty']
+        #password2 = request.form['password2']
+        grp = Group(name=name, faculty_id=faculty)
+
+        try:
+            db.session.add(grp)
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return "При добавлении группы возникла ошибка"
+    else:
+        return render_template("group_add.html")
+
+@app.route('/faculty_add', methods=['POST', 'GET'])
+def faculty_add():
+    if request.method == "POST":
+        name = request.form['name']
+        #password2 = request.form['password2']
+        fac = Faculty(name=name)
+
+        try:
+            db.session.add(fac)
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return "При добавлении факультета возникла ошибка"
+    else:
+        return render_template("faculty_add.html")
+
+@app.route('/depart_add', methods=['POST', 'GET'])
+def depart_add():
+    if request.method == "POST":
+        name = request.form['name']
+        faculty = request.form['faculty']
+        #password2 = request.form['password2']
+        dep = Depart(name=name, faculty_id = faculty)
+
+        try:
+            db.session.add(dep)
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return "При добавлении отделения возникла ошибка"
+    else:
+        return render_template("faculty_add.html")
 
 
 @app.route('/in_video')
