@@ -1,12 +1,14 @@
 from api import *
+import os
 
-UPLOAD_FOLDER = 'path/'
+UPLOAD_FOLDER = 'imgs/'
 
 @app.route('/add', methods=['POST', 'GET'])
 def add():
     if request.method == "POST":
         name = request.form['name']
-        group = request.form['group']
+       
+        group = request.form.get("group_id")
         level = request.form['level']
         login = request.form['login']
         password = request.form['password']
@@ -27,7 +29,71 @@ def add():
         except:
             return "При добавлении статьи возникла ошибка"
     else:
-        return render_template("add.html")
+        grou = Group.query.all()
+        return render_template("add.html", data=grou)
+
+
+
+
+@app.route('/add_group', methods=['POST', 'GET'])
+def add_group():
+    if request.method == "POST":
+        group = request.form.get('group')
+        fac_id = request.form.get("faculty_id")
+        if group is not None and fac_id is not None:
+            gr = Group(name=group, faculty_id=fac_id)
+
+        try:
+            db.session.add(gr)
+            db.session.commit()
+            return redirect('/add_group')
+        except:
+            return "При добавлении статьи возникла ошибка"
+
+    else:
+        facs = Faculty.query.all()
+        return render_template("add_group.html", data=facs)
+
+
+@app.route('/add_depart', methods=['POST', 'GET'])
+def add_departp():
+    if request.method == "POST":
+        depart = request.form.get('depart')
+        fac_id = request.form.get("faculty_id")
+        if depart is not None and fac_id is not None:
+            dep = Depart(name=depart, faculty_id=fac_id)
+
+        try:
+            db.session.add(dep)
+            db.session.commit()
+            return redirect('/add_depart')
+        except:
+            return "При добавлении статьи возникла ошибка"
+
+    else:
+        facs = Faculty.query.all()
+        return render_template("add_depart.html", data=facs)
+
+
+@app.route('/add_faculty', methods=['POST', 'GET'])
+def add_faculty():
+    if request.method == "POST":
+        faculty = request.form['faculty']
+        fac = Faculty(name=faculty)
+
+        try:
+            db.session.add(fac)
+            db.session.commit()
+            return redirect('/add_faculty')
+        except:
+            return "При добавлении статьи возникла ошибка"
+
+    else:
+        return render_template("add_faculty.html")
+
+
+
+
 
 @app.route('/group_add', methods=['POST', 'GET'])
 def group_add():

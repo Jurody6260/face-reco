@@ -3,8 +3,8 @@ from flask import Flask, render_template, Response, request, redirect, url_for
 from genericpath import samefile
 import face_recognition
 import numpy as np
-from os import listdir, remove
-from os.path import isfile, join, getmtime
+from os import *
+from os.path import *
 import cv2, time
 from hashlib import sha256
 from datetime import datetime
@@ -69,6 +69,7 @@ def Save(count=-1):
     printProgressBar(0, len(onlyfiles), prefix = 'Loading Images:', suffix = 'Complete', length = 50)
     ll = 0
     for item in onlyfiles:
+        print(item)
         if ".npz" in item:
             continue
         try:
@@ -77,8 +78,9 @@ def Save(count=-1):
             known_face_encodings.append(enc)
             n = Create_Name(item)
             known_face_names.append(n)
-        except:
-            pass
+        except Exception as E:
+            print("Error: %s"%str(E))
+            print(item)
         if count != -1:
             if i == count:
                 break
@@ -126,7 +128,7 @@ def gen(video):
     video.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
     video.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
     known_face_encodings, known_face_names = Load()
-
+    
     face_locations = []
     face_encodings = []
     face_names = []

@@ -2,6 +2,18 @@
 {%block title %} Main page {% endblock %}
 
 {%block body %}
-    <img src="{{url_for('in_video_url')}}" alt="">
-    <img src="{{url_for('out_video_url')}}" alt="">
+    <div class="con1">
+    <div class="col_in"><img src="{{url_for('in_video_url')}}" alt=""></div>
+  <div class="col_out">  <img src="{{url_for('out_video_url')}}" alt=""></div>
+</div>
+  <style>
+      .con1{
+          display: block;
+          margin: 40px;
+         
+      }
+      .col_out{
+          margin-top:40px;
+      }
+  </style>
 {% endblock %}
