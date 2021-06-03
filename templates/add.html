@@ -15,7 +15,13 @@
         
             <form method="post" enctype="multipart/form-data">
                 <input type="text" name="name" id="name" class="form-control" placeholder="Input Name"><br>
-                <input type="text" name="group" id="group" class="form-control" placeholder="Input Group"></input><br>
+                
+                <select name="group_id" class="form-control">
+                    {% for grou in data %}
+                    <option value="{{grou.id}}"> {{grou.name}} </option>
+                    {% endfor %}
+                  </select>
+                  <br>
                 <input type="text" name="level" id="level" class="form-control" placeholder="Input level"></input><br>
                 <input type="text" name="login" id="login" class="form-control" placeholder="Input login"></input><br>
                 <input type="text" name="password" id="password" class="form-control" placeholder="Input password"></input><br>
